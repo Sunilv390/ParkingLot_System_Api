@@ -4,14 +4,16 @@ using CommonLayer.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CommonLayer.Migrations
 {
     [DbContext(typeof(ParkingContext))]
-    partial class ParkingContextModelSnapshot : ModelSnapshot
+    [Migration("20200527063723_CommonLayer.Model.ParkingContext2")]
+    partial class CommonLayerModelParkingContext2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,8 +38,6 @@ namespace CommonLayer.Migrations
                     b.Property<string>("Slot")
                         .IsRequired();
 
-                    b.Property<string>("Status");
-
                     b.Property<string>("VehicleColor")
                         .IsRequired();
 
@@ -47,23 +47,6 @@ namespace CommonLayer.Migrations
                     b.HasKey("ReceiptNo");
 
                     b.ToTable("parkingPortals");
-                });
-
-            modelBuilder.Entity("CommonLayer.Model.ParkingStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Charges");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<int>("ReceiptNo");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ParkingStatuses");
                 });
 
             modelBuilder.Entity("CommonLayer.Model.UserDetail", b =>
@@ -76,20 +59,12 @@ namespace CommonLayer.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
                     b.Property<string>("UserName")
                         .IsRequired();
 
-                    b.Property<string>("UserType")
-                        .IsRequired();
+                    b.Property<string>("UserType");
 
                     b.HasKey("UserId");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
 
                     b.ToTable("UserDetails");
                 });

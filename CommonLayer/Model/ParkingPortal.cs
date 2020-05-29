@@ -8,32 +8,30 @@ namespace CommonLayer.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int ReceiptNo { get; set; }
         
         [Required]
         [RegularExpression(@"^[A-Z][a-zA-Z]*$")]
-        public string OwnerName { get; set; }
+        public string DriverName { get; set; }
 
         [Required]
-        public string VehicleType { get; set; }
+        public string VehicleColor { get; set; }
         
         [Required]
         [RegularExpression(@"^([A-Z]{2}\s?(\d{2})?(-)?([A-Z]{1}|\d{1})?([A-Z]{1}|\d{1})?( )?(\d{4}))$")]
         public string VehicleNumber { get; set; }
-        
+
+        [Required]
+        public string Brand { get; set; }
+
         [Required]
         [RegularExpression(@"^[A-D]$")]
         public string Slot { get; set; }
-        
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime InTime { get; set; }
+
+        public string Status { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime OutTime { get; set; }
-        
-        [Required]
-        public int Charges { get; set; }
+        public DateTime ParkingDate { get; set; }
     }
 }

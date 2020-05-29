@@ -1,10 +1,14 @@
-﻿using System;
+﻿using CommonLayer.Model;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BussinesLayer.Interface
 {
-    interface IParkingBusiness
+    public interface IParkingBusiness
     {
+        ParkingPortal AddData(ParkingPortal parkingPortal);
+        List<ParkingPortal> GetDetail();
+        object GetVehicleByNo(string number);
+        object GetVehicleByBrand(string name);
+        object ParkStatus(ParkingStatus parkingStatus);
     }
 }
