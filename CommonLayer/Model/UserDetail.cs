@@ -13,12 +13,12 @@ namespace CommonLayer.Model
         [RegularExpression(@"^[A-Z][a-zA-Z]*$")]
         public string  UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Enter Valid Email Address")]
         [EmailAddress]
         [StringLength(50)]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Minimum 6 characters allowed")]
         [DataType(DataType.Password)]
         [StringLength(50, MinimumLength = 6)]
         public string Password { get; set; }

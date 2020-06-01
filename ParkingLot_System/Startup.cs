@@ -35,6 +35,18 @@ namespace ParkingLot_System
             services.AddScoped<IUserBussiness, UserBussiness>();
             services.AddScoped<IUserRepository, UserRepository>();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+              .AddJwtBearer(option =>
+              {
+                  var serverSecret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:key"]));
+                  option.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      IssuerSigningKey = serverSecret,
+                      ValidIssuer = Configuration["JWT:Issuer"],
+                      ValidAudience = Configuration["JWT:Audience"]
+                  };
+              });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
@@ -54,19 +66,23 @@ namespace ParkingLot_System
                     In = ParameterLocation.Header,
                     Description = "JWT Authorization header using the Bearer scheme."
                 });
-            });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-               .AddJwtBearer(option =>
-               {
-                   var serverSecret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:key"]));
-                   option.TokenValidationParameters = new TokenValidationParameters
-                   {
-                       IssuerSigningKey = serverSecret,
-                       ValidIssuer = Configuration["JWT:Issuer"],
-                       ValidAudience = Configuration["JWT:Audience"]
-                   };
-               });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,17 +97,17 @@ namespace ParkingLot_System
                 app.UseHsts();
             }
 
-            //Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseAuthentication();
+            app.UseHttpsRedirection();
+            app.UseMvc();
+            //Enable middleware to serve generated Swagger as a JSON endpoint
+           
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "ParkingLot Portal");
                 options.RoutePrefix = "";
             });
-
-            app.UseHttpsRedirection();
-            app.UseMvc();
         }
     }
 }

@@ -14,11 +14,11 @@ namespace ParkingLot_System.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserLoginController : ControllerBase
+    public class RegistrationController : ControllerBase
     {
         private readonly IUserBussiness userBussiness;
         private readonly IConfiguration _config;
-        public UserLoginController(IUserBussiness _userBussiness, IConfiguration config)
+        public RegistrationController(IUserBussiness _userBussiness, IConfiguration config)
         {
             userBussiness = _userBussiness;
             _config = config;
@@ -34,7 +34,7 @@ namespace ParkingLot_System.Controllers
                 var data = userBussiness.AddUserData(model);
                 bool success = false;
                 string message;
-                if (!ModelState.IsValid)
+                if (data == null)
                 {
                     message = "Details not added";
                     return Ok(new { success, message });
@@ -51,27 +51,28 @@ namespace ParkingLot_System.Controllers
 
         //GET: api/ParkingLot
         //Get all details according to there Role
-        [Authorize(Roles ="Owner,Driver,Security,Police")]
+        
         [HttpGet]
+        [Authorize(Roles = "Owner,Police,Security,Driver")]
         public ActionResult GetOwnerDetails()
         {
             try
             {
                 bool success = false;
                 string message;
-                var result = userBussiness.GetOwnerDetails();
-                if (result == null)
+                var data = userBussiness.GetOwnerDetails();
+                if (data == null)
                 {
                     message = "Data not Found";
                     return Ok(new { success, message });
                 }
                 success = true;
                 message = "Parking Details";
-                return Ok(new { success, message, result });
+                return Ok(new { success, message, data });
             }
             catch(Exception e)
             {
-                throw new Exception(e.Message);
+                return BadRequest(new { e.Message });
             }
         }
 
@@ -80,26 +81,29 @@ namespace ParkingLot_System.Controllers
         [Route("login")]
         public ActionResult Login(UserLogin login)
         {
-            var data = userBussiness.Login(login);
+            try
+            {
+                var data = userBussiness.Login(login);
 
-            if (data == null)
-            {
-                bool success = false;
-                string message;
-                message = "Email and Password not Valid";
-                return Ok(new { success, message });
+                if (data == null)
+                {
+                    bool success = false;
+                    string message = "Email and Password not Valid";
+                    return Ok(new { success, message });
+                }
+                else
+                {
+                    var jsontoken = GenerateToken(login);
+                    bool success = true;
+                   string message = "Successfully Login";
+                    return Ok(new { success, message, data, jsontoken });
+                }
             }
-            else
+            catch (Exception e)
             {
-                var jsontoken = GenerateToken(login);
-                bool success = true;
-                string message;
-                message = "Successfully Login";
-                return Ok(new { success, message, data, jsontoken });
+                return BadRequest(new { e.Message });
             }
         }
-
-       
 
         //Generates Token for Login
         private string GenerateToken(UserLogin responseData)
@@ -117,7 +121,7 @@ namespace ParkingLot_System.Controllers
                 var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                     _config["Jwt:Issuer"],
                     claims,
-                    expires: DateTime.Now.AddMinutes(5),
+                    expires: DateTime.Now.AddMinutes(120),
                     signingCredentials: signingCreds);
                 return new JwtSecurityTokenHandler().WriteToken(token);
             }

@@ -32,7 +32,14 @@ namespace BussinesLayer.Services
             try
             {
                 var result = parkingRepository.GetVehicleByNo(number);
-                return result;
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception e)
             {
@@ -45,7 +52,14 @@ namespace BussinesLayer.Services
             try
             {
                 var result = parkingRepository.GetVehicleByBrand(name);
-                return result;
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
             catch(Exception e)
             {

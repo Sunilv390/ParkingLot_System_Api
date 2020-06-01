@@ -13,10 +13,12 @@ namespace ParkingLot_System.Controllers
     {
         private readonly IParkingBusiness parkingBussiness;
         private readonly ParkingContext db;
+
         public ParkingLotController(IParkingBusiness _parkingBussiness,ParkingContext _db)
         {
             parkingBussiness = _parkingBussiness;
             db = _db;
+           
         }
 
         // POST: api/ParkingLot
@@ -159,7 +161,7 @@ namespace ParkingLot_System.Controllers
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                return BadRequest(e.Message);
             }
         }
     }

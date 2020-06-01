@@ -38,8 +38,11 @@ namespace RepositoryLayer.Services
                         where (table.VehicleNumber == number)
                         select new ParkingPortal
                         {
+                            DriverName=table.DriverName,
                             VehicleColor = table.VehicleColor,
                             Brand = table.Brand,
+                            Status=table.Status,
+                            Slot=table.Slot,
                             VehicleNumber = table.VehicleNumber,
                         }).ToList();
             }
@@ -57,7 +60,10 @@ namespace RepositoryLayer.Services
                         where (table.Brand == name)
                         select new ParkingPortal
                         {
+                            DriverName=table.DriverName,
                             Brand = table.Brand,
+                            Status=table.Status,
+                            Slot=table.Slot,
                             VehicleColor = table.VehicleColor,
                             VehicleNumber = table.VehicleNumber
                         }).ToList();
@@ -112,18 +118,11 @@ namespace RepositoryLayer.Services
 
         public ParkingPortal AddData(ParkingPortal parkingPortal)
         {
-            try
-            {
-                parkingPortal.Status = "Parked";
-                parkingPortal.ParkingDate = DateTime.Now;
-                db.Add(parkingPortal);
-                db.SaveChanges();
-                return parkingPortal;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            parkingPortal.Status = "Parked";
+            parkingPortal.ParkingDate = DateTime.Now;
+            db.Add(parkingPortal);
+            db.SaveChanges();
+            return parkingPortal;
+        }
         }
     }
-}

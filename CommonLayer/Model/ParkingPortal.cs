@@ -14,10 +14,10 @@ namespace CommonLayer.Model
         [RegularExpression(@"^[A-Z][a-zA-Z]*$")]
         public string DriverName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Enter a String Value")]
         public string VehicleColor { get; set; }
         
-        [Required]
+        [Required(ErrorMessage ="Enter valid Vehicle Number")]
         [RegularExpression(@"^([A-Z]{2}\s?(\d{2})?(-)?([A-Z]{1}|\d{1})?([A-Z]{1}|\d{1})?( )?(\d{4}))$")]
         public string VehicleNumber { get; set; }
 
