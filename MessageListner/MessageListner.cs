@@ -10,7 +10,6 @@ namespace MSMQListner
             var listener = new MSMQListener(@".\Private$\myqueue");
             listener.MessageReceived += new MessageReceivedEventHandler(listener_MessageReceived);
             listener.Start();
-            listener.SendMail("name","email","data");
             Console.WriteLine("Read Message");
             Console.ReadLine();
             listener.Stop();

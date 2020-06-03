@@ -20,10 +20,12 @@ namespace ParkingLot_System.Controllers
         MessageSender msmqSender = new MessageSender();
         private readonly IUserBussiness userBussiness;
         private readonly IConfiguration _config;
-        public RegistrationController(IUserBussiness _userBussiness, IConfiguration config)
+        private readonly IParkingBusiness parkingBusiness;
+        public RegistrationController(IUserBussiness _userBussiness, IConfiguration config,IParkingBusiness _parkingBusiness)
         {
             userBussiness = _userBussiness;
             _config = config;
+            parkingBusiness = _parkingBusiness;
         }
 
         // POST: api/ParkingLot

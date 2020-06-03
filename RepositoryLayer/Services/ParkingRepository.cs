@@ -119,7 +119,7 @@ namespace RepositoryLayer.Services
         public object CountSlot()
         {
             return (from p in db.parkingPortals
-                    where p.Status == "Park"
+                    where p.Status == "Parked"
                     select p
                     ).Count();
         }
@@ -154,14 +154,13 @@ namespace RepositoryLayer.Services
 
         public ParkingPortal AddData(ParkingPortal parkingPortal)
         {
-            //if(parkingPortal.Handicap == "Yes")
-            //{
-            //    parkingPortal.Slot = "A";
-            //}
+            if (parkingPortal.Handicap == "Yes")
+            {
+                parkingPortal.Slot = "A";
+            }
             parkingPortal.Status = "Parked";
             parkingPortal.ParkingDate = DateTime.Now;
             parkingPortal.Slot = CheckSlot();
-
             db.Add(parkingPortal);
             db.SaveChanges();
             return parkingPortal;

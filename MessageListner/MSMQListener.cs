@@ -102,29 +102,29 @@ namespace MessageListner
         }
 
         //SMTP method to send mail
-        public void SendMail(string name, string mail, string data)
-        {
-            var message = new MimeMessage();
+        //public void SendMail(string name, string mail, string data)
+        //{
+        //    var message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress(name, mail));
+        //    message.From.Add(new MailboxAddress(name, mail));
 
-            message.To.Add(new MailboxAddress("Employee Manegment", "sunilv390@gmail.com"));
+        //    message.To.Add(new MailboxAddress("Parking Lot", "sunilv390@gmail.com"));
 
-            message.Subject = "Registration";
+        //    message.Subject = "Registration";
 
-            message.Body = new TextPart("plain")
-            {
-                Text = data
-            };
+        //    message.Body = new TextPart("plain")
+        //    {
+        //        Text = data
+        //    };
 
-            using (var client = new SmtpClient())
-            {
-                client.Connect("smtp.gmail.com", 587, false);
-                client.Authenticate("sunilv390@gmail.com", "9082943232");
-                client.Send(message);
-                client.Disconnect(true);
-            }
-        }
+        //    using (var client = new SmtpClient())
+        //    {
+        //        client.Connect("smtp.gmail.com", 587, false);
+        //        client.Authenticate("sunilv390@gmail.com", "Sunilverma@390");
+        //        client.Send(message);
+        //        client.Disconnect(true);
+        //    }
+        //}
     }
 
     public class MessageEventArgs : EventArgs
