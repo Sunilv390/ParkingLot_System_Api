@@ -80,6 +80,26 @@ namespace BussinesLayer.Services
             }
         }
 
+        public object CountSlot()
+        {
+            try
+            {
+                var result = parkingRepository.CountSlot();
+                if (result == null)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public List<ParkingPortal> GetDetail()
         {
             try

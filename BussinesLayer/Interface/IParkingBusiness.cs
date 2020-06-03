@@ -10,5 +10,6 @@ namespace BussinesLayer.Interface
         object GetVehicleByNo(string number);
         object GetVehicleByBrand(string name);
         object ParkStatus(ParkingStatus parkingStatus);
+        object CountSlot();
     }
 }

@@ -13,6 +13,7 @@ namespace XUnitTestParkingLot
     {
         ParkingLotController parkingLotController;
         RegistrationController userLoginController;
+        private readonly ParkingContext _db;
         private readonly Mock<IParkingBusiness> parkingBussiness;
         private readonly Mock<IUserBussiness> userBussiness;
         private readonly Mock<IConfiguration> configuration;
@@ -22,7 +23,7 @@ namespace XUnitTestParkingLot
             parkingBussiness = new Mock<IParkingBusiness>();
             userBussiness = new Mock<IUserBussiness>();
             configuration = new Mock<IConfiguration>();
-            parkingLotController = new ParkingLotController(parkingBussiness.Object);
+            parkingLotController = new ParkingLotController(parkingBussiness.Object, _db);
             userLoginController = new RegistrationController(userBussiness.Object, configuration.Object);
         }
 

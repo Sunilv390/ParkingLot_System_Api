@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using ParkingLot_System.MSMQService;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,6 +17,7 @@ namespace ParkingLot_System.Controllers
     [ApiController]
     public class RegistrationController : ControllerBase
     {
+        MessageSender msmqSender = new MessageSender();
         private readonly IUserBussiness userBussiness;
         private readonly IConfiguration _config;
         public RegistrationController(IUserBussiness _userBussiness, IConfiguration config)
@@ -34,6 +36,7 @@ namespace ParkingLot_System.Controllers
                 var data = userBussiness.AddUserData(model);
                 bool success = false;
                 string message;
+                
                 if (data == null)
                 {
                     message = "Details not added";
@@ -41,17 +44,20 @@ namespace ParkingLot_System.Controllers
                 }
                 success = true;
                 message = "Data Added Successfully";
+                string messagesender="Registration successful with" + "\n Email : " + Convert.ToString(model.Email) + "\n and" + "\n Password : " + Convert.ToString(model.Password) + "\n of User type : " + model.UserType;
+                msmqSender.Message(messagesender);
                 return Ok(new { success, message, data });
             }
-            catch (Exception e)
+            catch
             {
-                return BadRequest(new { e.Message });
+                bool success = false;
+                string message = "Registration Failed";
+                return BadRequest(new { success,message });
             }
         }
 
         //GET: api/ParkingLot
         //Get all details according to there Role
-        
         [HttpGet]
         [Authorize(Roles = "Owner,Police,Security,Driver")]
         public ActionResult GetOwnerDetails()
@@ -70,9 +76,11 @@ namespace ParkingLot_System.Controllers
                 message = "Parking Details";
                 return Ok(new { success, message, data });
             }
-            catch(Exception e)
+            catch
             {
-                return BadRequest(new { e.Message });
+                bool success = false;
+                string message = "No such kind of User";
+                return BadRequest(new { success,message });
             }
         }
 
@@ -99,9 +107,11 @@ namespace ParkingLot_System.Controllers
                     return Ok(new { success, message, data, jsontoken });
                 }
             }
-            catch (Exception e)
+            catch
             {
-                return BadRequest(new { e.Message });
+                bool success = false;
+                string message = "Login failed";
+                return BadRequest(new { success,message });
             }
         }
 

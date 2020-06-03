@@ -29,14 +29,27 @@ namespace ParkingLot_System.Controllers
             try
             {
                 var data = parkingBussiness.AddData(parkingPortal);
-                bool success = true;
+                var count = parkingBussiness.CountSlot();
+                bool success = false;
                 string message;
-                message = "Data Added Successfully";
-                return Ok(new { success, message, data });
+                if (data == null)
+                {
+                    success = false;
+                    message = "Parking is Full";
+                    return Ok(new { success, message });
+                }
+                else
+                {
+                    success = true;
+                    message = "Data Added Successfully";
+                    return Ok(new { success, message, data });
+                }
             }
-            catch (Exception e)
+            catch
             {
-                throw new Exception(e.Message);
+                bool success = false;
+                string message = "Invalid Data";
+                return BadRequest(new { success, message });
             }
         }
 
@@ -62,7 +75,7 @@ namespace ParkingLot_System.Controllers
                     }
                     else
                     {
-                        message = "Data not Found";
+                        message = "No such Vehicle";
                         return Ok(new { success, message });
                     }
                 }
@@ -71,9 +84,11 @@ namespace ParkingLot_System.Controllers
                     throw new Exception(e.Message);
                 }
             }
-            catch(Exception e)
+            catch
             {
-                throw new Exception(e.Message);
+                bool success = false;
+                string message = "Data not Found";
+                return BadRequest(new { success, message });
             }
         }
 
@@ -110,7 +125,9 @@ namespace ParkingLot_System.Controllers
             }
             catch
             {
-                return BadRequest("No Such Data");
+                bool success = false;
+                string message = "No Such Data";
+                return BadRequest(new { success, message });
             }
         }
 
@@ -120,20 +137,28 @@ namespace ParkingLot_System.Controllers
         [Route("parkstatus")]
         public ActionResult ParkStatus(ParkingStatus parkingStatus)
         {
-            var data = parkingBussiness.ParkStatus(parkingStatus);
-
-            bool success = false;
-            string message;
-            if (data == null)
+            try
             {
-                message = "Data not Found";
-                return Ok(new { success, message });
+                var data = parkingBussiness.ParkStatus(parkingStatus);
+                string message;
+                if (data == null)
+                {
+                    bool success = false;
+                    message = "Data not Found";
+                    return Ok(new { success, message });
+                }
+                else
+                {
+                    bool success = true;
+                    message = "Parking Status";
+                    return Ok(new { success, message, data });
+                }
             }
-            else
+            catch
             {
-                success = true;
-                message = "Parking Status";
-                return Ok(new { success, message, data });
+                bool success = false;
+                string message = "Fail to Unpark";
+                return BadRequest(new { success, message });
             }
         }
 
@@ -159,9 +184,11 @@ namespace ParkingLot_System.Controllers
                     return Ok(new { success, message, result });
                 }
             }
-            catch (Exception e)
+            catch
             {
-                return BadRequest(e.Message);
+                bool success = false;
+                string message = "No such Data";
+                return BadRequest(new { success, message });
             }
         }
     }

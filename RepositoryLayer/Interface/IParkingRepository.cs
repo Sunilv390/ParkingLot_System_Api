@@ -12,5 +12,6 @@ namespace RepositoryLayer.Interface
         object GetVehicleByBrand(string name);
         object GetVehicleByNo(string number);
         object ParkStatus(ParkingStatus parkingStatus);
+        object CountSlot();
     }
 }

@@ -9,6 +9,7 @@ namespace RepositoryLayer.Services
     public class ParkingRepository : IParkingRepository
     {
         private readonly ParkingContext db;
+        SlotLimt limit = new SlotLimt();
         public ParkingRepository(ParkingContext _db)
         {
             db = _db;
@@ -85,7 +86,6 @@ namespace RepositoryLayer.Services
                 parkingStatus.Charges =Convert.ToInt32( total * 10);
 
                 var Status = db.parkingPortals.Find(parkingStatus.ReceiptNo);
-
                 Status.Status = "UnPark";
                 db.parkingPortals.Update(Status);
                 db.Add(parkingStatus);
@@ -116,10 +116,52 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public object CountSlot()
+        {
+            return (from p in db.parkingPortals
+                    where p.Status == "Park"
+                    select p
+                    ).Count();
+        }
+
+        public string CheckSlot()
+        {
+            var condition = db.parkingPortals.Where(p => p.Slot == "A" && p.Status == "Parked").Count();
+            var condition1 = db.parkingPortals.Where(p => p.Slot == "B" && p.Status == "Parked").Count();
+            var condition2 = db.parkingPortals.Where(p => p.Slot == "C" && p.Status == "Parked").Count();
+            var condition3 = db.parkingPortals.Where(p => p.Slot == "D" && p.Status == "Parked").Count();
+            if (condition <= limit.A)
+            {
+                return "A";
+            }
+            else if (condition1 <= limit.B)
+            {
+                return "B";
+            }
+            else if (condition2 <= limit.C)
+            {
+                return "C";
+            }
+            else if(condition3<=limit.D)
+            {
+                return  "D";
+            }
+            else
+            {
+                throw new Exception("Parking Is Full");
+            }
+        }
+
         public ParkingPortal AddData(ParkingPortal parkingPortal)
         {
+            //if(parkingPortal.Handicap == "Yes")
+            //{
+            //    parkingPortal.Slot = "A";
+            //}
             parkingPortal.Status = "Parked";
             parkingPortal.ParkingDate = DateTime.Now;
+            parkingPortal.Slot = CheckSlot();
+
             db.Add(parkingPortal);
             db.SaveChanges();
             return parkingPortal;

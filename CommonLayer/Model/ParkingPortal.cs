@@ -30,6 +30,8 @@ namespace CommonLayer.Model
 
         public string Status { get; set; }
 
+        public string Handicap { get; set; }
+
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime ParkingDate { get; set; }
