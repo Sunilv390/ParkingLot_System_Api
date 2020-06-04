@@ -13,13 +13,10 @@ namespace ParkingLot_System.Controllers
     public class ParkingLotController : ControllerBase
     {
         private readonly IParkingBusiness parkingBussiness;
-        private readonly ParkingContext db;
 
-        public ParkingLotController(IParkingBusiness _parkingBussiness,ParkingContext _db)
+        public ParkingLotController(IParkingBusiness _parkingBussiness)
         {
             parkingBussiness = _parkingBussiness;
-            db = _db;
-           
         }
 
         // POST: api/ParkingLot
@@ -68,7 +65,7 @@ namespace ParkingLot_System.Controllers
                 string message;
                 try
                 {
-                    if (db.parkingPortals.Any(x => x.VehicleNumber == number))
+                    if (data != null)
                     {
                         success = true;
                         message = "Vehicle Details By Number";
@@ -107,7 +104,7 @@ namespace ParkingLot_System.Controllers
                 string message;
                 try
                 {
-                    if (db.parkingPortals.Any(x => x.Brand == name))
+                    if (data != null)
                     {
                         success = true;
                         message = "Vehicle Details By Brand Name";
