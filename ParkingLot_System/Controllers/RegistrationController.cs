@@ -62,7 +62,7 @@ namespace ParkingLot_System.Controllers
         //Get all details according to there Role
         [HttpGet]
         [Authorize(Roles = "Owner,Police,Security,Driver")]
-        public ActionResult GetOwnerDetails()
+        public ActionResult GetAllDetails()
         {
             try
             {

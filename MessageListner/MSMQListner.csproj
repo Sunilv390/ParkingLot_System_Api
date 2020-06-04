@@ -66,6 +66,7 @@
     <Compile Include="MessageListner.cs" />
     <Compile Include="MSMQListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SMTP.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

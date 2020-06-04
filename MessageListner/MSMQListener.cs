@@ -8,9 +8,9 @@ namespace MessageListner
     public delegate void MessageReceivedEventHandler(object sender, MessageEventArgs args);
     public class MSMQListener
     {
+        SMTP s = new SMTP();
 
         private bool _listen;
-        //    BinaryMessageFormatter _types;
         MessageQueue _queue;
 
         public event MessageReceivedEventHandler MessageReceived;
@@ -23,7 +23,6 @@ namespace MessageListner
         public void Start()
         {
             _listen = true;
-            // Using only the XmlMessageFormatter. You can use other formatters as well
 
             _queue.Formatter = new BinaryMessageFormatter();
             _queue.PeekCompleted += new PeekCompletedEventHandler(OnPeekCompleted);
@@ -89,6 +88,8 @@ namespace MessageListner
             if (MessageReceived != null)
             {
                 MessageReceived(this, new MessageEventArgs(body));
+                string data = body.ToString();
+                s.SendMail("Sunil", "sunilv390@gmail.com", data);
             }
         }
 
@@ -100,31 +101,6 @@ namespace MessageListner
 
             FireRecieveEvent(msg.Body);
         }
-
-        //SMTP method to send mail
-        //public void SendMail(string name, string mail, string data)
-        //{
-        //    var message = new MimeMessage();
-
-        //    message.From.Add(new MailboxAddress(name, mail));
-
-        //    message.To.Add(new MailboxAddress("Parking Lot", "sunilv390@gmail.com"));
-
-        //    message.Subject = "Registration";
-
-        //    message.Body = new TextPart("plain")
-        //    {
-        //        Text = data
-        //    };
-
-        //    using (var client = new SmtpClient())
-        //    {
-        //        client.Connect("smtp.gmail.com", 587, false);
-        //        client.Authenticate("sunilv390@gmail.com", "Sunilverma@390");
-        //        client.Send(message);
-        //        client.Disconnect(true);
-        //    }
-        //}
     }
 
     public class MessageEventArgs : EventArgs

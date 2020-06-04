@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -45,7 +46,7 @@ namespace ParkingLot_System.Controllers
                     return Ok(new { success, message, data });
                 }
             }
-            catch
+            catch (Exception)
             {
                 bool success = false;
                 string message = "Invalid Data";
@@ -84,7 +85,7 @@ namespace ParkingLot_System.Controllers
                     throw new Exception(e.Message);
                 }
             }
-            catch
+            catch (Exception)
             {
                 bool success = false;
                 string message = "Data not Found";
@@ -123,7 +124,7 @@ namespace ParkingLot_System.Controllers
                     throw new Exception(e.Message);
                 }
             }
-            catch
+            catch (Exception)
             {
                 bool success = false;
                 string message = "No Such Data";
@@ -154,7 +155,7 @@ namespace ParkingLot_System.Controllers
                     return Ok(new { success, message, data });
                 }
             }
-            catch
+            catch (Exception)
             {
                 bool success = false;
                 string message = "Fail to Unpark";
@@ -184,7 +185,7 @@ namespace ParkingLot_System.Controllers
                     return Ok(new { success, message, result });
                 }
             }
-            catch
+            catch (Exception)
             {
                 bool success = false;
                 string message = "No such Data";
