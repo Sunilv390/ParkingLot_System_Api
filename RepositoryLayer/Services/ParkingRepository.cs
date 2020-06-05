@@ -33,19 +33,20 @@ namespace RepositoryLayer.Services
 
         public object GetVehicleByNo(string number)
         {
+            ParkingPortal portal = new ParkingPortal();
+            portal.VehicleNumber = number;
             try
             {
-                return (from table in db.parkingPortals
-                        where (table.VehicleNumber == number)
-                        select new ParkingPortal
-                        {
-                            DriverName=table.DriverName,
-                            VehicleColor = table.VehicleColor,
-                            Brand = table.Brand,
-                            Status=table.Status,
-                            Slot=table.Slot,
-                            VehicleNumber = table.VehicleNumber,
-                        }).ToList();
+                if (db.parkingPortals.Any(p => p.VehicleNumber == number))
+                {
+                    return (from table in db.parkingPortals
+                            where table.VehicleNumber == number
+                            select table).ToList();
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception e)
             {
@@ -57,17 +58,17 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                return (from table in db.parkingPortals
-                        where (table.Brand == name)
-                        select new ParkingPortal
-                        {
-                            DriverName=table.DriverName,
-                            Brand = table.Brand,
-                            Status=table.Status,
-                            Slot=table.Slot,
-                            VehicleColor = table.VehicleColor,
-                            VehicleNumber = table.VehicleNumber
-                        }).ToList();
+                if (db.parkingPortals.Any(p => p.Brand == name))
+                {
+                    var data = (from table in db.parkingPortals
+                                where table.Brand == name
+                                select table).ToList();
+                    return data;
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception e)
             {

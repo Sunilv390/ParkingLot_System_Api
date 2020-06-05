@@ -94,11 +94,12 @@ namespace XUnitTestParkingLot
 
             ParkingPortal details = new ParkingPortal()
             {
-                DriverName = "Sunil",
-                VehicleNumber = "MH47P 1636",
+                DriverName = "ManishChandra",
+                VehicleNumber = "MH47P 4521",
                 Brand = "Jaguar",
                 VehicleColor = "Black",
-                Slot = "A",
+                Slot = "D",
+                Handicap="Yes",
                 ParkingDate = DateTime.Now,
                 Status = "Park"
 
@@ -116,13 +117,14 @@ namespace XUnitTestParkingLot
         {
             ParkingPortal details = new ParkingPortal()
             {
-                DriverName = "",
-                VehicleNumber = "",
-                Brand = "",
-                VehicleColor = "",
-                Slot = "",
+                DriverName = "ManishChandra",
+                VehicleNumber = "MH47P 4521",
+                Brand = "Jaguar",
+                VehicleColor = "Black",
+                Slot = "D",
+                Handicap="Yes",
                 ParkingDate = DateTime.Now,
-                Status = ""
+                Status = "Park"
 
             };
 
@@ -139,7 +141,7 @@ namespace XUnitTestParkingLot
             //Arrange
             ParkingStatus details = new ParkingStatus()
             {
-                ReceiptNo = 1013
+                ReceiptNo = 2010
 
             };
             // Act
@@ -187,9 +189,9 @@ namespace XUnitTestParkingLot
 
             UserLogin details = new UserLogin()
             {
-                Email = "",
-                Password = "",
-                UserType = ""
+                Email = "yoshika1@gmail.com",
+                Password = "yoshika",
+                UserType = "Owner"
 
             };
             // Act
@@ -222,10 +224,10 @@ namespace XUnitTestParkingLot
 
             var details = new UserDetail()
             {
-                UserName = "yoshika1",
-                Email = "yoshika1@gmail.com",
-                Password = "yoshika",
-                UserType = "Admin"
+                UserName = "Zebra",
+                Email = "zebra@gmail.com",
+                Password = "zebra00",
+                UserType = "Security"
 
             };
 

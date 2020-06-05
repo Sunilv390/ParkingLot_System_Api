@@ -21,7 +21,7 @@ namespace CommonLayer.Model
         [RegularExpression(@"^([A-Z]{2}\s?(\d{2})?(-)?([A-Z]{1}|\d{1})?([A-Z]{1}|\d{1})?( )?(\d{4}))$")]
         public string VehicleNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Enter String Value")]
         public string Brand { get; set; }
 
         [Required]
